@@ -5,6 +5,4 @@ importENV/*
 build/*
 dist/*
 *.egg-info*
-*.txt
-*.csv
 .vscode*

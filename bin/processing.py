@@ -4,6 +4,7 @@
 from argparse import ArgumentParser
 import csv
 from os import _exit
+from os.path import join
 
 def _group_it(lines_in_file):
     big_dict = {}
@@ -29,13 +30,13 @@ def main():
     with open(arguments.pipe_delimited_file, "r", encoding="utf-8") as read_file:
         data = read_file.readlines()
     data_dict = _group_it(data)
-    output = open(arguments.output_file, "a", encoding="utf-8")
+    output = open(arguments.output_file + ".txt", "a", encoding="utf-8")
     for n_item in data_dict:
         output.write("{}\n".format(n_item.strip()))
         for n_record in data_dict[n_item]["records"]:
             output.write('\t{} created on {}\n'.format(n_record["receipt"].strip(),
                                                        n_record["createdate"].strip()))
-    with open("temp.csv", "w", encoding="utf-8") as write_file:
+    with open(join(arguments.output_file + ".csv"), "w", encoding="utf-8") as write_file:
         csvwriter = csv.writer(write_file, quotechar="\"", delimiter=",", quoting=csv.QUOTE_ALL)
         csvwriter.writerow(["collection title", "accession id", "accession date"])
         for n_row in data:
