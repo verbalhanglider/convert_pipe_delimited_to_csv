@@ -35,13 +35,16 @@ def main():
         output.write("{}\n".format(n_item.strip()))
         for n_record in data_dict[n_item]["records"]:
             output.write('\t{} created on {}\n'.format(n_record["receipt"].strip(),
-                                                       n_record["createdate"].strip()))
+                                                       n_record["createdate"].strip().split('T')[0]))
     with open(join(arguments.output_file + ".csv"), "w", encoding="utf-8") as write_file:
         csvwriter = csv.writer(write_file, quotechar="\"", delimiter=",", quoting=csv.QUOTE_ALL)
         csvwriter.writerow(["collection title", "accession id", "accession date"])
         for n_row in data:
             fields = n_row.strip().split('|')
-            csvwriter.writerow(fields)
+            title = fields[0]
+            receipt = fields[1]
+            createdate = fields[2].strip().split('T')[0]
+            csvwriter.writerow([title, receipt, createdate])
 
     return 0
 
