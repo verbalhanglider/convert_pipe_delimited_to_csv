@@ -38,14 +38,17 @@ def main():
                                                        n_record["createdate"].strip().split('T')[0]))
     with open(join(arguments.output_file + ".csv"), "w", encoding="utf-8") as write_file:
         csvwriter = csv.writer(write_file, quotechar="\"", delimiter=",", quoting=csv.QUOTE_ALL)
-        csvwriter.writerow(["collection title", "accession id", "accession date"])
-        for n_row in data:
-            fields = n_row.strip().split('|')
-            title = fields[0]
-            receipt = fields[1]
-            createdate = fields[2].strip().split('T')[0]
-            csvwriter.writerow([title, receipt, createdate])
-
+        csvwriter.writerow(["accession id", "collection title", "accession date"])
+        lines = []
+        for x in data:
+            a_row = x.split('|')
+            lines.append(a_row)
+        lines = sorted(lines, key=lambda x: (x[0], x[2]))
+        for line in lines:
+            title = line[0]
+            receipt = line[1]
+            createdate = line[2].strip().split('T')[0]
+            csvwriter.writerow([receipt, title, createdate])
     return 0
 
 if __name__ == "__main__":
