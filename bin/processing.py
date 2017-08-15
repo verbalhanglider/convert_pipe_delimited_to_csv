@@ -37,6 +37,7 @@ def main():
                                                        n_record["createdate"].strip()))
     with open("temp.csv", "w", encoding="utf-8") as write_file:
         csvwriter = csv.writer(write_file, quotechar="\"", delimiter=",", quoting=csv.QUOTE_ALL)
+        csvwriter.writerow(["collection title", "accession id", "accession date"])
         for n_row in data:
             fields = n_row.strip().split('|')
             csvwriter.writerow(fields)
